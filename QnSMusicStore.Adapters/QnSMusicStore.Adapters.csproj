@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\QnSMusicStore.Logic\QnSMusicStore.Logic.csproj" />
+    <ProjectReference Include="..\QnSMusicStore.Transfer\QnSMusicStore.Transfer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Customize\" />
+  </ItemGroup>
+
+</Project>
