@@ -70,12 +70,12 @@ namespace QnSMusicStore.ConApp
             {
                 var entity = await albumTracksCtrl.CreateAsync();
 
-                entity.Master.Title = item.Title;
-                entity.Master.ArtistId = artists[artistData.Select((i, idx) => new { i.Id, idx }).First(i => i.Id == item.ArtistId).idx].Id;
+                entity.FirstItem.Title = item.Title;
+                entity.FirstItem.ArtistId = artists[artistData.Select((i, idx) => new { i.Id, idx }).First(i => i.Id == item.ArtistId).idx].Id;
 
                 foreach (var subitem in trackData.Where(i => i.AlbumId == item.Id))
                 {
-                    var track = entity.CreateDetail();
+                    var track = entity.CreateSecondItem();
 
                     track.Title = subitem.Title;
                     track.GenreId = genres[genreData.Select((i, idx) => new { i.Id, idx }).First(i => i.Id == subitem.GenreId).idx].Id;
@@ -83,7 +83,7 @@ namespace QnSMusicStore.ConApp
                     track.Milliseconds = subitem.Milliseconds;
                     track.Bytes = subitem.Bytes;
                     track.UnitPrice = subitem.UnitPrice;
-                    entity.AddDetail(track);
+                    entity.AddSecondItem(track);
                 }
                 try
                 {

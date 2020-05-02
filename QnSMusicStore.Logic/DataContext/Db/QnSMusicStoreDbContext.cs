@@ -1,4 +1,4 @@
-//@CustomizeCode
+//@QnSCodeCopy
 //MdStart
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +13,7 @@ namespace QnSMusicStore.Logic.DataContext.Db
         static QnSMusicStoreDbContext()
         {
             ClassConstructing();
-            ConnectionString = Modules.Configuration.Settings.Get(CommonBase.StaticLiterals.ConnectionString, DefaultConnectionString);
+            ConnectionString = Modules.Configuration.Settings.Get(CommonBase.StaticLiterals.ConnectionString);
             ClassConstructed();
         }
         static partial void ClassConstructing();
@@ -29,9 +29,6 @@ namespace QnSMusicStore.Logic.DataContext.Db
                     && level == LogLevel.Information)
                 .AddDebug();
         });
-        private static string DefaultConnectionString => "Data Source=(localdb)\\MSSQLLocalDb;Database=QnSMusicStoreDb;Integrated Security=True;";
-#else
-        private static string DefaultConnectionString => "Data Source=dbserver;Database=QnSMusicStoreDb;User Id=sa;Password=Passme123!";
 #endif
         private static string ConnectionString { get; set; }
 
@@ -100,6 +97,9 @@ namespace QnSMusicStore.Logic.DataContext.Db
             entityTypeBuilder
                 .Property(p => p.PasswordHash)
                 .IsRequired();
+            entityTypeBuilder
+                .Property(p => p.PasswordSalt)
+                .IsRequired();
         }
         partial void ConfigureEntityType(EntityTypeBuilder<Role> entityTypeBuilder)
         {
@@ -131,6 +131,15 @@ namespace QnSMusicStore.Logic.DataContext.Db
                 .Ignore(p => p.Email);
             entityTypeBuilder
                 .Ignore(p => p.JsonWebToken);
+        }
+        partial void ConfigureEntityType(EntityTypeBuilder<User> entityTypeBuilder)
+        {
+            entityTypeBuilder
+                .Property(p => p.Firstname)
+                .HasMaxLength(64);
+            entityTypeBuilder
+                .Property(p => p.Lastname)
+                .HasMaxLength(64);
         }
         #endregion Configuration
     }

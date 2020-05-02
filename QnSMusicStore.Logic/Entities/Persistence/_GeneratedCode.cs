@@ -72,7 +72,7 @@ namespace QnSMusicStore.Logic.Entities.Persistence.App
 			if (handled == false)
 			{
 				Id = other.Id;
-				Timestamp = other.Timestamp;
+				RowVersion = other.RowVersion;
 				ArtistId = other.ArtistId;
 				Title = other.Title;
 			}
@@ -94,11 +94,11 @@ namespace QnSMusicStore.Logic.Entities.Persistence.App
 			{
 				return false;
 			}
-			return Id == other.Id && IsEqualsWith(Timestamp, other.Timestamp) && ArtistId == other.ArtistId && IsEqualsWith(Title, other.Title);
+			return Id == other.Id && IsEqualsWith(RowVersion, other.RowVersion) && ArtistId == other.ArtistId && IsEqualsWith(Title, other.Title);
 		}
 		public override int GetHashCode()
 		{
-			return HashCode.Combine(Id, Timestamp, ArtistId, Title);
+			return HashCode.Combine(Id, RowVersion, ArtistId, Title);
 		}
 	}
 }
@@ -176,7 +176,7 @@ namespace QnSMusicStore.Logic.Entities.Persistence.App
 			if (handled == false)
 			{
 				Id = other.Id;
-				Timestamp = other.Timestamp;
+				RowVersion = other.RowVersion;
 				Name = other.Name;
 			}
 			AfterCopyProperties(other);
@@ -197,11 +197,11 @@ namespace QnSMusicStore.Logic.Entities.Persistence.App
 			{
 				return false;
 			}
-			return Id == other.Id && IsEqualsWith(Timestamp, other.Timestamp) && IsEqualsWith(Name, other.Name);
+			return Id == other.Id && IsEqualsWith(RowVersion, other.RowVersion) && IsEqualsWith(Name, other.Name);
 		}
 		public override int GetHashCode()
 		{
-			return HashCode.Combine(Id, Timestamp, Name);
+			return HashCode.Combine(Id, RowVersion, Name);
 		}
 	}
 }
@@ -274,7 +274,7 @@ namespace QnSMusicStore.Logic.Entities.Persistence.App
 			if (handled == false)
 			{
 				Id = other.Id;
-				Timestamp = other.Timestamp;
+				RowVersion = other.RowVersion;
 				Name = other.Name;
 			}
 			AfterCopyProperties(other);
@@ -295,11 +295,11 @@ namespace QnSMusicStore.Logic.Entities.Persistence.App
 			{
 				return false;
 			}
-			return Id == other.Id && IsEqualsWith(Timestamp, other.Timestamp) && IsEqualsWith(Name, other.Name);
+			return Id == other.Id && IsEqualsWith(RowVersion, other.RowVersion) && IsEqualsWith(Name, other.Name);
 		}
 		public override int GetHashCode()
 		{
-			return HashCode.Combine(Id, Timestamp, Name);
+			return HashCode.Combine(Id, RowVersion, Name);
 		}
 	}
 }
@@ -504,7 +504,7 @@ namespace QnSMusicStore.Logic.Entities.Persistence.App
 			if (handled == false)
 			{
 				Id = other.Id;
-				Timestamp = other.Timestamp;
+				RowVersion = other.RowVersion;
 				AlbumId = other.AlbumId;
 				GenreId = other.GenreId;
 				Title = other.Title;
@@ -531,11 +531,11 @@ namespace QnSMusicStore.Logic.Entities.Persistence.App
 			{
 				return false;
 			}
-			return Id == other.Id && IsEqualsWith(Timestamp, other.Timestamp) && AlbumId == other.AlbumId && GenreId == other.GenreId && IsEqualsWith(Title, other.Title) && IsEqualsWith(Composer, other.Composer) && Milliseconds == other.Milliseconds && Bytes == other.Bytes && UnitPrice == other.UnitPrice;
+			return Id == other.Id && IsEqualsWith(RowVersion, other.RowVersion) && AlbumId == other.AlbumId && GenreId == other.GenreId && IsEqualsWith(Title, other.Title) && IsEqualsWith(Composer, other.Composer) && Milliseconds == other.Milliseconds && Bytes == other.Bytes && UnitPrice == other.UnitPrice;
 		}
 		public override int GetHashCode()
 		{
-			return HashCode.Combine(Id, Timestamp, AlbumId, GenreId, Title, Composer, HashCode.Combine(Milliseconds, Bytes, UnitPrice));
+			return HashCode.Combine(Id, RowVersion, AlbumId, GenreId, Title, Composer, HashCode.Combine(Milliseconds, Bytes, UnitPrice));
 		}
 	}
 }
@@ -701,7 +701,7 @@ namespace QnSMusicStore.Logic.Entities.Persistence.Account
 			if (handled == false)
 			{
 				Id = other.Id;
-				Timestamp = other.Timestamp;
+				RowVersion = other.RowVersion;
 				IdentityId = other.IdentityId;
 				Time = other.Time;
 				Subject = other.Subject;
@@ -726,11 +726,11 @@ namespace QnSMusicStore.Logic.Entities.Persistence.Account
 			{
 				return false;
 			}
-			return Id == other.Id && IsEqualsWith(Timestamp, other.Timestamp) && IdentityId == other.IdentityId && Time == other.Time && IsEqualsWith(Subject, other.Subject) && IsEqualsWith(Action, other.Action) && IsEqualsWith(Info, other.Info);
+			return Id == other.Id && IsEqualsWith(RowVersion, other.RowVersion) && IdentityId == other.IdentityId && Time == other.Time && IsEqualsWith(Subject, other.Subject) && IsEqualsWith(Action, other.Action) && IsEqualsWith(Info, other.Info);
 		}
 		public override int GetHashCode()
 		{
-			return HashCode.Combine(Id, Timestamp, IdentityId, Time, Subject, Action, HashCode.Combine(Info));
+			return HashCode.Combine(Id, RowVersion, IdentityId, Time, Subject, Action, HashCode.Combine(Info));
 		}
 	}
 }
@@ -935,7 +935,7 @@ namespace QnSMusicStore.Logic.Entities.Persistence.Account
 			if (handled == false)
 			{
 				Id = other.Id;
-				Timestamp = other.Timestamp;
+				RowVersion = other.RowVersion;
 				Guid = other.Guid;
 				Name = other.Name;
 				Email = other.Email;
@@ -962,11 +962,11 @@ namespace QnSMusicStore.Logic.Entities.Persistence.Account
 			{
 				return false;
 			}
-			return Id == other.Id && IsEqualsWith(Timestamp, other.Timestamp) && IsEqualsWith(Guid, other.Guid) && IsEqualsWith(Name, other.Name) && IsEqualsWith(Email, other.Email) && IsEqualsWith(Password, other.Password) && EnableJwtAuth == other.EnableJwtAuth && AccessFailedCount == other.AccessFailedCount && State == other.State;
+			return Id == other.Id && IsEqualsWith(RowVersion, other.RowVersion) && IsEqualsWith(Guid, other.Guid) && IsEqualsWith(Name, other.Name) && IsEqualsWith(Email, other.Email) && IsEqualsWith(Password, other.Password) && EnableJwtAuth == other.EnableJwtAuth && AccessFailedCount == other.AccessFailedCount && State == other.State;
 		}
 		public override int GetHashCode()
 		{
-			return HashCode.Combine(Id, Timestamp, Guid, Name, Email, Password, HashCode.Combine(EnableJwtAuth, AccessFailedCount, State));
+			return HashCode.Combine(Id, RowVersion, Guid, Name, Email, Password, HashCode.Combine(EnableJwtAuth, AccessFailedCount, State));
 		}
 	}
 }
@@ -991,6 +991,11 @@ namespace QnSMusicStore.Logic.Entities.Persistence.Account
 			set;
 		}
 		public System.Collections.Generic.ICollection<QnSMusicStore.Logic.Entities.Persistence.Account.LoginSession> LoginSessions
+		{
+			get;
+			set;
+		}
+		public System.Collections.Generic.ICollection<QnSMusicStore.Logic.Entities.Persistence.Account.User> Users
 		{
 			get;
 			set;
@@ -1071,7 +1076,7 @@ namespace QnSMusicStore.Logic.Entities.Persistence.Account
 			if (handled == false)
 			{
 				Id = other.Id;
-				Timestamp = other.Timestamp;
+				RowVersion = other.RowVersion;
 				IdentityId = other.IdentityId;
 				RoleId = other.RoleId;
 			}
@@ -1093,11 +1098,11 @@ namespace QnSMusicStore.Logic.Entities.Persistence.Account
 			{
 				return false;
 			}
-			return Id == other.Id && IsEqualsWith(Timestamp, other.Timestamp) && IdentityId == other.IdentityId && RoleId == other.RoleId;
+			return Id == other.Id && IsEqualsWith(RowVersion, other.RowVersion) && IdentityId == other.IdentityId && RoleId == other.RoleId;
 		}
 		public override int GetHashCode()
 		{
-			return HashCode.Combine(Id, Timestamp, IdentityId, RoleId);
+			return HashCode.Combine(Id, RowVersion, IdentityId, RoleId);
 		}
 	}
 }
@@ -1373,7 +1378,7 @@ namespace QnSMusicStore.Logic.Entities.Persistence.Account
 			if (handled == false)
 			{
 				Id = other.Id;
-				Timestamp = other.Timestamp;
+				RowVersion = other.RowVersion;
 				IdentityId = other.IdentityId;
 				IsRemoteAuth = other.IsRemoteAuth;
 				Origin = other.Origin;
@@ -1403,11 +1408,11 @@ namespace QnSMusicStore.Logic.Entities.Persistence.Account
 			{
 				return false;
 			}
-			return Id == other.Id && IsEqualsWith(Timestamp, other.Timestamp) && IdentityId == other.IdentityId && IsRemoteAuth == other.IsRemoteAuth && IsEqualsWith(Origin, other.Origin) && IsEqualsWith(Name, other.Name) && IsEqualsWith(Email, other.Email) && IsEqualsWith(JsonWebToken, other.JsonWebToken) && IsEqualsWith(SessionToken, other.SessionToken) && LoginTime == other.LoginTime && LastAccess == other.LastAccess && LogoutTime == other.LogoutTime;
+			return Id == other.Id && IsEqualsWith(RowVersion, other.RowVersion) && IdentityId == other.IdentityId && IsRemoteAuth == other.IsRemoteAuth && IsEqualsWith(Origin, other.Origin) && IsEqualsWith(Name, other.Name) && IsEqualsWith(Email, other.Email) && IsEqualsWith(JsonWebToken, other.JsonWebToken) && IsEqualsWith(SessionToken, other.SessionToken) && LoginTime == other.LoginTime && LastAccess == other.LastAccess && LogoutTime == other.LogoutTime;
 		}
 		public override int GetHashCode()
 		{
-			return HashCode.Combine(Id, Timestamp, IdentityId, IsRemoteAuth, Origin, Name, HashCode.Combine(Email, JsonWebToken, SessionToken, LoginTime, LastAccess, LogoutTime));
+			return HashCode.Combine(Id, RowVersion, IdentityId, IsRemoteAuth, Origin, Name, HashCode.Combine(Email, JsonWebToken, SessionToken, LoginTime, LastAccess, LogoutTime));
 		}
 	}
 }
@@ -1502,7 +1507,7 @@ namespace QnSMusicStore.Logic.Entities.Persistence.Account
 			if (handled == false)
 			{
 				Id = other.Id;
-				Timestamp = other.Timestamp;
+				RowVersion = other.RowVersion;
 				Designation = other.Designation;
 				Description = other.Description;
 			}
@@ -1524,11 +1529,11 @@ namespace QnSMusicStore.Logic.Entities.Persistence.Account
 			{
 				return false;
 			}
-			return Id == other.Id && IsEqualsWith(Timestamp, other.Timestamp) && IsEqualsWith(Designation, other.Designation) && IsEqualsWith(Description, other.Description);
+			return Id == other.Id && IsEqualsWith(RowVersion, other.RowVersion) && IsEqualsWith(Designation, other.Designation) && IsEqualsWith(Description, other.Description);
 		}
 		public override int GetHashCode()
 		{
-			return HashCode.Combine(Id, Timestamp, Designation, Description);
+			return HashCode.Combine(Id, RowVersion, Designation, Description);
 		}
 	}
 }
@@ -1543,6 +1548,150 @@ namespace QnSMusicStore.Logic.Entities.Persistence.Account
 	partial class Role
 	{
 		public System.Collections.Generic.ICollection<QnSMusicStore.Logic.Entities.Persistence.Account.IdentityXRole> IdentityXRoles
+		{
+			get;
+			set;
+		}
+	}
+}
+namespace QnSMusicStore.Logic.Entities.Persistence.Account
+{
+	using System;
+	partial class User : QnSMusicStore.Contracts.Persistence.Account.IUser
+	{
+		static User()
+		{
+			ClassConstructing();
+			ClassConstructed();
+		}
+		static partial void ClassConstructing();
+		static partial void ClassConstructed();
+		public User()
+		{
+			Constructing();
+			Constructed();
+		}
+		partial void Constructing();
+		partial void Constructed();
+		public System.Int32 IdentityId
+		{
+			get
+			{
+				OnIdentityIdReading();
+				return _identityId;
+			}
+			set
+			{
+				bool handled = false;
+				OnIdentityIdChanging(ref handled, ref _identityId);
+				if (handled == false)
+				{
+					this._identityId = value;
+				}
+				OnIdentityIdChanged();
+			}
+		}
+		private System.Int32 _identityId;
+		partial void OnIdentityIdReading();
+		partial void OnIdentityIdChanging(ref bool handled, ref System.Int32 _identityId);
+		partial void OnIdentityIdChanged();
+		public System.String Firstname
+		{
+			get
+			{
+				OnFirstnameReading();
+				return _firstname;
+			}
+			set
+			{
+				bool handled = false;
+				OnFirstnameChanging(ref handled, ref _firstname);
+				if (handled == false)
+				{
+					this._firstname = value;
+				}
+				OnFirstnameChanged();
+			}
+		}
+		private System.String _firstname;
+		partial void OnFirstnameReading();
+		partial void OnFirstnameChanging(ref bool handled, ref System.String _firstname);
+		partial void OnFirstnameChanged();
+		public System.String Lastname
+		{
+			get
+			{
+				OnLastnameReading();
+				return _lastname;
+			}
+			set
+			{
+				bool handled = false;
+				OnLastnameChanging(ref handled, ref _lastname);
+				if (handled == false)
+				{
+					this._lastname = value;
+				}
+				OnLastnameChanged();
+			}
+		}
+		private System.String _lastname;
+		partial void OnLastnameReading();
+		partial void OnLastnameChanging(ref bool handled, ref System.String _lastname);
+		partial void OnLastnameChanged();
+		public void CopyProperties(QnSMusicStore.Contracts.Persistence.Account.IUser other)
+		{
+			if (other == null)
+			{
+				throw new System.ArgumentNullException(nameof(other));
+			}
+			bool handled = false;
+			BeforeCopyProperties(other, ref handled);
+			if (handled == false)
+			{
+				Id = other.Id;
+				RowVersion = other.RowVersion;
+				IdentityId = other.IdentityId;
+				Firstname = other.Firstname;
+				Lastname = other.Lastname;
+			}
+			AfterCopyProperties(other);
+		}
+		partial void BeforeCopyProperties(QnSMusicStore.Contracts.Persistence.Account.IUser other, ref bool handled);
+		partial void AfterCopyProperties(QnSMusicStore.Contracts.Persistence.Account.IUser other);
+		public override bool Equals(object obj)
+		{
+			if (!(obj is QnSMusicStore.Contracts.Persistence.Account.IUser instance))
+			{
+				return false;
+			}
+			return base.Equals(instance) && Equals(instance);
+		}
+		protected bool Equals(QnSMusicStore.Contracts.Persistence.Account.IUser other)
+		{
+			if (other == null)
+			{
+				return false;
+			}
+			return Id == other.Id && IsEqualsWith(RowVersion, other.RowVersion) && IdentityId == other.IdentityId && IsEqualsWith(Firstname, other.Firstname) && IsEqualsWith(Lastname, other.Lastname);
+		}
+		public override int GetHashCode()
+		{
+			return HashCode.Combine(Id, RowVersion, IdentityId, Firstname, Lastname);
+		}
+	}
+}
+namespace QnSMusicStore.Logic.Entities.Persistence.Account
+{
+	partial class User : IdentityObject
+	{
+	}
+}
+namespace QnSMusicStore.Logic.Entities.Persistence.Account
+{
+	partial class User
+	{
+		public QnSMusicStore.Logic.Entities.Persistence.Account.Identity Identity
 		{
 			get;
 			set;

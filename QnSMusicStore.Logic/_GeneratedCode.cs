@@ -25,6 +25,10 @@ namespace QnSMusicStore.Logic
 			{
 				result = new Controllers.Persistence.Account.RoleController(CreateContext()) as Contracts.Client.IControllerAccess<I>;
 			}
+			else if (typeof(I) == typeof(QnSMusicStore.Contracts.Persistence.Account.IUser))
+			{
+				result = new Controllers.Persistence.Account.UserController(CreateContext()) as Contracts.Client.IControllerAccess<I>;
+			}
 			else if (typeof(I) == typeof(QnSMusicStore.Contracts.Business.App.IAlbumTracks))
 			{
 				result = new Controllers.Business.App.AlbumTracksController(CreateContext()) as Contracts.Client.IControllerAccess<I>;
@@ -36,6 +40,10 @@ namespace QnSMusicStore.Logic
 			else if (typeof(I) == typeof(QnSMusicStore.Contracts.Business.Account.IAppAccess))
 			{
 				result = new Controllers.Business.Account.AppAccessController(CreateContext()) as Contracts.Client.IControllerAccess<I>;
+			}
+			else if (typeof(I) == typeof(QnSMusicStore.Contracts.Business.Account.IIdentityUser))
+			{
+				result = new Controllers.Business.Account.IdentityUserController(CreateContext()) as Contracts.Client.IControllerAccess<I>;
 			}
 			return result;
 		}
@@ -62,6 +70,10 @@ namespace QnSMusicStore.Logic
 			{
 				result = new Controllers.Persistence.Account.RoleController(sharedController as Controllers.ControllerObject) as Contracts.Client.IControllerAccess<I>;
 			}
+			else if (typeof(I) == typeof(QnSMusicStore.Contracts.Persistence.Account.IUser))
+			{
+				result = new Controllers.Persistence.Account.UserController(sharedController as Controllers.ControllerObject) as Contracts.Client.IControllerAccess<I>;
+			}
 			else if (typeof(I) == typeof(QnSMusicStore.Contracts.Business.App.IAlbumTracks))
 			{
 				result = new Controllers.Business.App.AlbumTracksController(sharedController as Controllers.ControllerObject) as Contracts.Client.IControllerAccess<I>;
@@ -73,6 +85,10 @@ namespace QnSMusicStore.Logic
 			else if (typeof(I) == typeof(QnSMusicStore.Contracts.Business.Account.IAppAccess))
 			{
 				result = new Controllers.Business.Account.AppAccessController(sharedController as Controllers.ControllerObject) as Contracts.Client.IControllerAccess<I>;
+			}
+			else if (typeof(I) == typeof(QnSMusicStore.Contracts.Business.Account.IIdentityUser))
+			{
+				result = new Controllers.Business.Account.IdentityUserController(sharedController as Controllers.ControllerObject) as Contracts.Client.IControllerAccess<I>;
 			}
 			return result;
 		}
@@ -119,6 +135,14 @@ namespace QnSMusicStore.Logic
 				}
 				as Contracts.Client.IControllerAccess<I>;
 			}
+			else if (typeof(I) == typeof(QnSMusicStore.Contracts.Persistence.Account.IUser))
+			{
+				result = new Controllers.Persistence.Account.UserController(CreateContext())
+				{
+					SessionToken = sessionToken
+				}
+				as Contracts.Client.IControllerAccess<I>;
+			}
 			else if (typeof(I) == typeof(QnSMusicStore.Contracts.Business.App.IAlbumTracks))
 			{
 				result = new Controllers.Business.App.AlbumTracksController(CreateContext())
@@ -138,6 +162,14 @@ namespace QnSMusicStore.Logic
 			else if (typeof(I) == typeof(QnSMusicStore.Contracts.Business.Account.IAppAccess))
 			{
 				result = new Controllers.Business.Account.AppAccessController(CreateContext())
+				{
+					SessionToken = sessionToken
+				}
+				as Contracts.Client.IControllerAccess<I>;
+			}
+			else if (typeof(I) == typeof(QnSMusicStore.Contracts.Business.Account.IIdentityUser))
+			{
+				result = new Controllers.Business.Account.IdentityUserController(CreateContext())
 				{
 					SessionToken = sessionToken
 				}

@@ -1,22 +1,23 @@
 //@QnSCodeCopy
 //MdStart
 using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using CommonBase.Extensions;
 using QnSMusicStore.AspMvc.Models.Persistence.Account;
-using Model = QnSMusicStore.AspMvc.Models.Business.Account.AppAccess;
-using Contract = QnSMusicStore.Contracts.Business.Account.IAppAccess;
+using Model = QnSMusicStore.AspMvc.Models.Business.Account.IdentityUser;
+using Contract = QnSMusicStore.Contracts.Business.Account.IIdentityUser;
 
 namespace QnSMusicStore.AspMvc.Controllers
 {
-    public partial class IdentityController : AccessController
+    public partial class IdentityUserController : AccessController
     {
-        private readonly ILogger<IdentityController> _logger;
-        public IdentityController(ILogger<IdentityController> logger, IFactoryWrapper factoryWrapper)
+        private readonly ILogger<IdentityUserController> _logger;
+        public IdentityUserController(ILogger<IdentityUserController> logger, IFactoryWrapper factoryWrapper)
             : base(factoryWrapper)
         {
             Constructing();
@@ -42,7 +43,6 @@ namespace QnSMusicStore.AspMvc.Controllers
             var model = ConvertTo<Model, Contract>(entity);
 
             model.ActionError = error;
-            await LoadRolesAsync(model).ConfigureAwait(false);
             return View("Edit", model);
         }
 
@@ -55,102 +55,77 @@ namespace QnSMusicStore.AspMvc.Controllers
             var model = ConvertTo<Model, Contract>(entity);
 
             model.ActionError = error;
-            await LoadRolesAsync(model).ConfigureAwait(false);
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [ActionName("IdentityEdit")]
-        public async Task<IActionResult> IdentityEditAsync(int id, Identity identityModel, IFormCollection collection)
+        [ActionName("Edit")]
+        public async Task<IActionResult> EditAsync(int id, Identity identity, User user, IFormCollection formCollection)
         {
             using var ctrl = Factory.Create<Contract>(SessionWrapper.SessionToken);
-            async Task<IActionResult> CreateFailedAsync(Identity identity, string error)
+            async Task<IActionResult> CreateFailedAsync(Model viewModel, string error)
             {
                 var entity = await ctrl.CreateAsync().ConfigureAwait(false);
 
-                entity.Identity.CopyProperties(identity);
+                entity.CopyProperties(viewModel);
 
                 var model = ConvertTo<Model, Contract>(entity);
 
                 model.ActionError = error;
-                await LoadRolesAsync(model).ConfigureAwait(false);
                 return View("Edit", model);
             }
-            async Task<IActionResult> EditFailedAsync(Identity identity, string error)
+            async Task<IActionResult> EditFailedAsync(Model viewModel, string error)
             {
-                var entity = await ctrl.GetByIdAsync(identity.Id).ConfigureAwait(false);
+                var entity = await ctrl.GetByIdAsync(viewModel.Id).ConfigureAwait(false);
 
-                entity.Identity.CopyProperties(identity);
+                entity.CopyProperties(viewModel);
 
                 var model = ConvertTo<Model, Contract>(entity);
 
                 model.ActionError = error;
-                await LoadRolesAsync(model).ConfigureAwait(false);
                 return View("Edit", model);
             }
-            async Task UpdateRolesAsync(Model model)
-            {
-                using var ctrlRole = Factory.Create<Contracts.Persistence.Account.IRole>(SessionWrapper.SessionToken);
-                var roles = await ctrlRole.GetAllAsync().ConfigureAwait(false);
 
-                model.ClearRoles();
-                foreach (var item in collection.Where(l => l.Key.StartsWith("Assigned")))
-                {
-                    var roleId = item.Key.ToInt();
-                    var role = roles.SingleOrDefault(r => r.Id == roleId);
-
-                    if (role != null)
-                    {
-                        model.AddRole(role);
-                    }
-                }
-            }
+            Model model = new Model();
+            
+            user.Id = formCollection["UserId"][0].ToInt();
+            model.FirstItem.CopyProperties(identity);
+            model.SecondItem.CopyProperties(user);
 
             if (ModelState.IsValid == false)
             {
-                if (identityModel.Id == 0)
+                if (model.Id == 0)
                 {
-                    return await CreateFailedAsync(identityModel, GetModelStateError()).ConfigureAwait(false);
+                    return await CreateFailedAsync(model, GetModelStateError()).ConfigureAwait(false);
                 }
                 else
                 {
-                    return await EditFailedAsync(identityModel, GetModelStateError()).ConfigureAwait(false);
+                    return await EditFailedAsync(model, GetModelStateError()).ConfigureAwait(false);
                 }
             }
             try
             {
-                if (identityModel.Id == 0)
+                if (model.Id == 0)
                 {
-                    var entity = await ctrl.CreateAsync().ConfigureAwait(false);
-
-                    entity.Identity.CopyProperties(identityModel);
-                    var model = ConvertTo<Model, Contract>(entity);
-
-                    await UpdateRolesAsync(model).ConfigureAwait(false);
                     var result = await ctrl.InsertAsync(model).ConfigureAwait(false);
 
                     id = result.Id;
                 }
                 else
                 {
-                    var entity = await ctrl.GetByIdAsync(id).ConfigureAwait(false);
-
-                    var model = ConvertTo<Model, Contract>(entity);
-                    model.Identity.CopyProperties(identityModel);
-                    await UpdateRolesAsync(model).ConfigureAwait(false);
                     await ctrl.UpdateAsync(model).ConfigureAwait(false);
                 }
             }
             catch (Exception ex)
             {
-                if (identityModel.Id == 0)
+                if (model.Id == 0)
                 {
-                    return await CreateFailedAsync(identityModel, GetExceptionError(ex)).ConfigureAwait(false);
+                    return await CreateFailedAsync(model, GetExceptionError(ex)).ConfigureAwait(false);
                 }
                 else
                 {
-                    return await EditFailedAsync(identityModel, GetExceptionError(ex)).ConfigureAwait(false);
+                    return await EditFailedAsync(model, GetExceptionError(ex)).ConfigureAwait(false);
                 }
             }
             return RedirectToAction("Edit", new { id });
@@ -197,32 +172,82 @@ namespace QnSMusicStore.AspMvc.Controllers
             }
         }
 
-        #region Helpers
-        private async Task LoadRolesAsync(Model model)
+
+        #region Export and Import
+        protected override string[] CsvHeader => new string[] { "Id", "SecondItem.Id", "FirstItem.Name", "FirstItem.Email", "SecondItem.Firstname", "SecondItem.Lastname",  "FirstItem.Password", "FirstItem.AccessFailedCount", "FirstItem.EnableJwtAuth" };
+
+        [ActionName("Export")]
+        public async Task<FileResult> ExportAsync()
         {
-            model.CheckArgument(nameof(model));
+            var fileName = "IdentityUser.csv";
+            using var ctrl = Factory.Create<Contract>(SessionWrapper.SessionToken);
+            var entities = (await ctrl.GetAllAsync().ConfigureAwait(false)).Select(e => ConvertTo<Model, Contract>(e));
 
-            using var ctrlRole = Factory.Create<Contracts.Persistence.Account.IRole>(SessionWrapper.SessionToken);
-            var roles = await ctrlRole.GetAllAsync().ConfigureAwait(false);
+            return ExportDefault(CsvHeader, entities, fileName);
+        }
 
-            foreach (var item in roles)
+        [ActionName("Import")]
+        public ActionResult ImportAsync(string error = null)
+        {
+            var model = new Models.Modules.Export.ImportProtocol() { BackController = ControllerName, ActionError = error };
+
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Import")]
+        public async Task<IActionResult> ImportAsync()
+        {
+            var index = 0;
+            var model = new Models.Modules.Export.ImportProtocol() { BackController = ControllerName };
+            var logInfos = new List<Models.Modules.Export.ImportLog>();
+            var importModels = ImportDefault<Model>(CsvHeader);
+            using var ctrl = Factory.Create<Contract>(SessionWrapper.SessionToken);
+
+            foreach (var item in importModels)
             {
-                var assigned = model.RoleEntities.SingleOrDefault(r => r.Id == item.Id);
-
-                if (assigned != null)
+                index++;
+                try
                 {
-                    assigned.Assigned = true;
+                    if (item.Action == Models.Modules.Export.ImportAction.Insert)
+                    {
+                        var entity = await ctrl.CreateAsync();
+
+                        CopyModels(CsvHeader, item.Model, entity);
+                        await ctrl.InsertAsync(entity);
+                    }
+                    else if (item.Action == Models.Modules.Export.ImportAction.Update)
+                    {
+                        var entity = await ctrl.GetByIdAsync(item.Id);
+
+                        CopyModels(CsvHeader, item.Model, entity);
+                        await ctrl.UpdateAsync(entity);
+                    }
+                    else if (item.Action == Models.Modules.Export.ImportAction.Delete)
+                    {
+                        await ctrl.DeleteAsync(item.Id);
+                    }
+                    logInfos.Add(new Models.Modules.Export.ImportLog
+                    {
+                        IsError = false,
+                        Prefix = $"Line: {index} - {item.Action}",
+                        Text = "OK",
+                    });
                 }
-                else
+                catch (Exception ex)
                 {
-                    var role = new Models.Persistence.Account.Role();
-
-                    role.CopyProperties(item);
-                    model.RoleEntities.Add(role);
+                    logInfos.Add(new Models.Modules.Export.ImportLog
+                    {
+                        IsError = true,
+                        Prefix = $"Line: {index} - {item.Action}",
+                        Text = GetExceptionError(ex),
+                    });
                 }
             }
+            model.LogInfos = logInfos;
+            return View(model);
         }
-        #endregion Helpers
+        #endregion Export and Import
     }
 }
 //MdEnd

@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Mvc.Razor
 @using Microsoft.AspNetCore.Mvc.Rendering
 @using QnSMusicStore.AspMvc.Modules.Session
-@model QnSMusicStore.AspMvc.Models.Business.Account.AppAccess
+@model QnSMusicStore.AspMvc.Models.Business.Account.IdentityUser
 @*Begin:Header*@
 @{
 #if DEBUG
@@ -32,21 +32,22 @@
 </div>
 <hr />
 
-<form asp-action="IdentityEdit">
+<form asp-action="Edit">
     @if (Model.HasError)
     {
         <span class="field-validation-error" data-valmsg-for="Error" data-valmsg-replace="true">@translate(Model.ActionError)</span>
     }
+    <input asp-for="Id" type="hidden" />
+    <input asp-for="RowVersion" type="hidden" />
     <div style="margin-top: 1em;">
-        @await Html.PartialAsync("_IdentityEdit", Model.Identity)
+        @await Html.PartialAsync("_IdentityEdit", Model.FirstItem)
+    </div>
+
+    <div style="margin-top: 1em;">
+        @await Html.PartialAsync("_UserEdit", Model.SecondItem)
     </div>
 
     @await Html.PartialAsync("_SubmitBack", new SubmitBackCmd())
-
-    <div style="margin-top: 1em;">
-        <h4>Rolen</h4>
-        @await Html.PartialAsync("_RoleListEdit", Model.Roles)
-    </div>
 </form>
 @*Begin:Footer*@
 @{
@@ -59,5 +60,8 @@
 @*End:Footer*@
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        await Html.RenderPartialAsync("_EditScriptsPartial");
+    }
 }

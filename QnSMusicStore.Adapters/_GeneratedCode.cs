@@ -27,6 +27,10 @@ namespace QnSMusicStore.Adapters
 				{
 					result = new Controller.GenericControllerAdapter<QnSMusicStore.Contracts.Persistence.Account.IRole>() as Contracts.Client.IAdapterAccess<I>;
 				}
+				else if (typeof(I) == typeof(QnSMusicStore.Contracts.Persistence.Account.IUser))
+				{
+					result = new Controller.GenericControllerAdapter<QnSMusicStore.Contracts.Persistence.Account.IUser>() as Contracts.Client.IAdapterAccess<I>;
+				}
 				else if (typeof(I) == typeof(QnSMusicStore.Contracts.Business.App.IAlbumTracks))
 				{
 					result = new Controller.GenericControllerAdapter<QnSMusicStore.Contracts.Business.App.IAlbumTracks>() as Contracts.Client.IAdapterAccess<I>;
@@ -38,6 +42,10 @@ namespace QnSMusicStore.Adapters
 				else if (typeof(I) == typeof(QnSMusicStore.Contracts.Business.Account.IAppAccess))
 				{
 					result = new Controller.GenericControllerAdapter<QnSMusicStore.Contracts.Business.Account.IAppAccess>() as Contracts.Client.IAdapterAccess<I>;
+				}
+				else if (typeof(I) == typeof(QnSMusicStore.Contracts.Business.Account.IIdentityUser))
+				{
+					result = new Controller.GenericControllerAdapter<QnSMusicStore.Contracts.Business.Account.IIdentityUser>() as Contracts.Client.IAdapterAccess<I>;
 				}
 			}
 			else if (Adapter == AdapterType.Service)
@@ -62,6 +70,10 @@ namespace QnSMusicStore.Adapters
 				{
 					result = new Service.GenericServiceAdapter<QnSMusicStore.Contracts.Persistence.Account.IRole, Transfer.Persistence.Account.Role>(BaseUri, "Role") as Contracts.Client.IAdapterAccess<I>;
 				}
+				else if (typeof(I) == typeof(QnSMusicStore.Contracts.Persistence.Account.IUser))
+				{
+					result = new Service.GenericServiceAdapter<QnSMusicStore.Contracts.Persistence.Account.IUser, Transfer.Persistence.Account.User>(BaseUri, "User") as Contracts.Client.IAdapterAccess<I>;
+				}
 				else if (typeof(I) == typeof(QnSMusicStore.Contracts.Business.App.IAlbumTracks))
 				{
 					result = new Service.GenericServiceAdapter<QnSMusicStore.Contracts.Business.App.IAlbumTracks, Transfer.Business.App.AlbumTracks>(BaseUri, "AlbumTracks") as Contracts.Client.IAdapterAccess<I>;
@@ -73,6 +85,10 @@ namespace QnSMusicStore.Adapters
 				else if (typeof(I) == typeof(QnSMusicStore.Contracts.Business.Account.IAppAccess))
 				{
 					result = new Service.GenericServiceAdapter<QnSMusicStore.Contracts.Business.Account.IAppAccess, Transfer.Business.Account.AppAccess>(BaseUri, "AppAccess") as Contracts.Client.IAdapterAccess<I>;
+				}
+				else if (typeof(I) == typeof(QnSMusicStore.Contracts.Business.Account.IIdentityUser))
+				{
+					result = new Service.GenericServiceAdapter<QnSMusicStore.Contracts.Business.Account.IIdentityUser, Transfer.Business.Account.IdentityUser>(BaseUri, "IdentityUser") as Contracts.Client.IAdapterAccess<I>;
 				}
 			}
 			return result;
@@ -102,6 +118,10 @@ namespace QnSMusicStore.Adapters
 				{
 					result = new Controller.GenericControllerAdapter<QnSMusicStore.Contracts.Persistence.Account.IRole>(sessionToken) as Contracts.Client.IAdapterAccess<I>;
 				}
+				else if (typeof(I) == typeof(QnSMusicStore.Contracts.Persistence.Account.IUser))
+				{
+					result = new Controller.GenericControllerAdapter<QnSMusicStore.Contracts.Persistence.Account.IUser>(sessionToken) as Contracts.Client.IAdapterAccess<I>;
+				}
 				else if (typeof(I) == typeof(QnSMusicStore.Contracts.Business.App.IAlbumTracks))
 				{
 					result = new Controller.GenericControllerAdapter<QnSMusicStore.Contracts.Business.App.IAlbumTracks>(sessionToken) as Contracts.Client.IAdapterAccess<I>;
@@ -113,6 +133,10 @@ namespace QnSMusicStore.Adapters
 				else if (typeof(I) == typeof(QnSMusicStore.Contracts.Business.Account.IAppAccess))
 				{
 					result = new Controller.GenericControllerAdapter<QnSMusicStore.Contracts.Business.Account.IAppAccess>(sessionToken) as Contracts.Client.IAdapterAccess<I>;
+				}
+				else if (typeof(I) == typeof(QnSMusicStore.Contracts.Business.Account.IIdentityUser))
+				{
+					result = new Controller.GenericControllerAdapter<QnSMusicStore.Contracts.Business.Account.IIdentityUser>(sessionToken) as Contracts.Client.IAdapterAccess<I>;
 				}
 			}
 			else if (Adapter == AdapterType.Service)
@@ -137,6 +161,10 @@ namespace QnSMusicStore.Adapters
 				{
 					result = new Service.GenericServiceAdapter<QnSMusicStore.Contracts.Persistence.Account.IRole, Transfer.Persistence.Account.Role>(sessionToken, BaseUri, "Role") as Contracts.Client.IAdapterAccess<I>;
 				}
+				else if (typeof(I) == typeof(QnSMusicStore.Contracts.Persistence.Account.IUser))
+				{
+					result = new Service.GenericServiceAdapter<QnSMusicStore.Contracts.Persistence.Account.IUser, Transfer.Persistence.Account.User>(sessionToken, BaseUri, "User") as Contracts.Client.IAdapterAccess<I>;
+				}
 				else if (typeof(I) == typeof(QnSMusicStore.Contracts.Business.App.IAlbumTracks))
 				{
 					result = new Service.GenericServiceAdapter<QnSMusicStore.Contracts.Business.App.IAlbumTracks, Transfer.Business.App.AlbumTracks>(sessionToken, BaseUri, "AlbumTracks") as Contracts.Client.IAdapterAccess<I>;
@@ -148,6 +176,10 @@ namespace QnSMusicStore.Adapters
 				else if (typeof(I) == typeof(QnSMusicStore.Contracts.Business.Account.IAppAccess))
 				{
 					result = new Service.GenericServiceAdapter<QnSMusicStore.Contracts.Business.Account.IAppAccess, Transfer.Business.Account.AppAccess>(sessionToken, BaseUri, "AppAccess") as Contracts.Client.IAdapterAccess<I>;
+				}
+				else if (typeof(I) == typeof(QnSMusicStore.Contracts.Business.Account.IIdentityUser))
+				{
+					result = new Service.GenericServiceAdapter<QnSMusicStore.Contracts.Business.Account.IIdentityUser, Transfer.Business.Account.IdentityUser>(sessionToken, BaseUri, "IdentityUser") as Contracts.Client.IAdapterAccess<I>;
 				}
 			}
 			return result;

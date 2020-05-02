@@ -28,12 +28,12 @@ namespace QnSMusicStore.Logic.Entities.Business.App
 			if (handled == false)
 			{
 				Id = other.Id;
-				Timestamp = other.Timestamp;
-				Master.CopyProperties(other.Master);
-				ClearDetails();
-				foreach (var detail in other.Details)
+				RowVersion = other.RowVersion;
+				FirstItem.CopyProperties(other.FirstItem);
+				ClearSecondItems();
+				foreach (var item in other.SecondItems)
 				{
-					AddDetail(detail);
+					AddSecondItem(item);
 				}
 			}
 			AfterCopyProperties(other);
@@ -54,17 +54,17 @@ namespace QnSMusicStore.Logic.Entities.Business.App
 			{
 				return false;
 			}
-			return Id == other.Id && IsEqualsWith(Timestamp, other.Timestamp) && IsEqualsWith(Master, other.Master) && IsEqualsWith(Details, other.Details);
+			return Id == other.Id && IsEqualsWith(RowVersion, other.RowVersion) && IsEqualsWith(FirstItem, other.FirstItem) && IsEqualsWith(SecondItems, other.SecondItems);
 		}
 		public override int GetHashCode()
 		{
-			return HashCode.Combine(Id, Timestamp, Master, Details);
+			return HashCode.Combine(Id, RowVersion, FirstItem, SecondItems);
 		}
 	}
 }
 namespace QnSMusicStore.Logic.Entities.Business.App
 {
-	partial class AlbumTracks : RelationObject<QnSMusicStore.Contracts.Persistence.App.IAlbum, QnSMusicStore.Logic.Entities.Persistence.App.Album, QnSMusicStore.Contracts.Persistence.App.ITrack, QnSMusicStore.Logic.Entities.Persistence.App.Track>
+	partial class AlbumTracks : OneToManyObject<QnSMusicStore.Contracts.Persistence.App.IAlbum, QnSMusicStore.Logic.Entities.Persistence.App.Album, QnSMusicStore.Contracts.Persistence.App.ITrack, QnSMusicStore.Logic.Entities.Persistence.App.Track>
 	{
 	}
 }
@@ -98,12 +98,12 @@ namespace QnSMusicStore.Logic.Entities.Business.App
 			if (handled == false)
 			{
 				Id = other.Id;
-				Timestamp = other.Timestamp;
-				Master.CopyProperties(other.Master);
-				ClearDetails();
-				foreach (var detail in other.Details)
+				RowVersion = other.RowVersion;
+				FirstItem.CopyProperties(other.FirstItem);
+				ClearSecondItems();
+				foreach (var item in other.SecondItems)
 				{
-					AddDetail(detail);
+					AddSecondItem(item);
 				}
 			}
 			AfterCopyProperties(other);
@@ -124,17 +124,17 @@ namespace QnSMusicStore.Logic.Entities.Business.App
 			{
 				return false;
 			}
-			return Id == other.Id && IsEqualsWith(Timestamp, other.Timestamp) && IsEqualsWith(Master, other.Master) && IsEqualsWith(Details, other.Details);
+			return Id == other.Id && IsEqualsWith(RowVersion, other.RowVersion) && IsEqualsWith(FirstItem, other.FirstItem) && IsEqualsWith(SecondItems, other.SecondItems);
 		}
 		public override int GetHashCode()
 		{
-			return HashCode.Combine(Id, Timestamp, Master, Details);
+			return HashCode.Combine(Id, RowVersion, FirstItem, SecondItems);
 		}
 	}
 }
 namespace QnSMusicStore.Logic.Entities.Business.App
 {
-	partial class ArtistAlbums : RelationObject<QnSMusicStore.Contracts.Persistence.App.IArtist, QnSMusicStore.Logic.Entities.Persistence.App.Artist, QnSMusicStore.Contracts.Persistence.App.IAlbum, QnSMusicStore.Logic.Entities.Persistence.App.Album>
+	partial class ArtistAlbums : OneToManyObject<QnSMusicStore.Contracts.Persistence.App.IArtist, QnSMusicStore.Logic.Entities.Persistence.App.Artist, QnSMusicStore.Contracts.Persistence.App.IAlbum, QnSMusicStore.Logic.Entities.Persistence.App.Album>
 	{
 	}
 }
@@ -157,50 +157,6 @@ namespace QnSMusicStore.Logic.Entities.Business.Account
 		}
 		partial void Constructing();
 		partial void Constructed();
-		public QnSMusicStore.Contracts.Persistence.Account.IIdentity Identity
-		{
-			get
-			{
-				OnIdentityReading();
-				return _identity;
-			}
-			set
-			{
-				bool handled = false;
-				OnIdentityChanging(ref handled, ref _identity);
-				if (handled == false)
-				{
-					this._identity = value;
-				}
-				OnIdentityChanged();
-			}
-		}
-		private QnSMusicStore.Contracts.Persistence.Account.IIdentity _identity;
-		partial void OnIdentityReading();
-		partial void OnIdentityChanging(ref bool handled, ref QnSMusicStore.Contracts.Persistence.Account.IIdentity _identity);
-		partial void OnIdentityChanged();
-		public System.Collections.Generic.IEnumerable<QnSMusicStore.Contracts.Persistence.Account.IRole> Roles
-		{
-			get
-			{
-				OnRolesReading();
-				return _roles;
-			}
-			set
-			{
-				bool handled = false;
-				OnRolesChanging(ref handled, ref _roles);
-				if (handled == false)
-				{
-					this._roles = value;
-				}
-				OnRolesChanged();
-			}
-		}
-		private System.Collections.Generic.IEnumerable<QnSMusicStore.Contracts.Persistence.Account.IRole> _roles;
-		partial void OnRolesReading();
-		partial void OnRolesChanging(ref bool handled, ref System.Collections.Generic.IEnumerable<QnSMusicStore.Contracts.Persistence.Account.IRole> _roles);
-		partial void OnRolesChanged();
 		public void CopyProperties(QnSMusicStore.Contracts.Business.Account.IAppAccess other)
 		{
 			if (other == null)
@@ -212,9 +168,13 @@ namespace QnSMusicStore.Logic.Entities.Business.Account
 			if (handled == false)
 			{
 				Id = other.Id;
-				Timestamp = other.Timestamp;
-				Identity = other.Identity;
-				Roles = other.Roles;
+				RowVersion = other.RowVersion;
+				FirstItem.CopyProperties(other.FirstItem);
+				ClearSecondItems();
+				foreach (var item in other.SecondItems)
+				{
+					AddSecondItem(item);
+				}
 			}
 			AfterCopyProperties(other);
 		}
@@ -234,17 +194,83 @@ namespace QnSMusicStore.Logic.Entities.Business.Account
 			{
 				return false;
 			}
-			return Id == other.Id && IsEqualsWith(Timestamp, other.Timestamp) && IsEqualsWith(Identity, other.Identity) && IsEqualsWith(Roles, other.Roles);
+			return Id == other.Id && IsEqualsWith(RowVersion, other.RowVersion) && IsEqualsWith(FirstItem, other.FirstItem) && IsEqualsWith(SecondItems, other.SecondItems);
 		}
 		public override int GetHashCode()
 		{
-			return HashCode.Combine(Id, Timestamp, Identity, Roles);
+			return HashCode.Combine(Id, RowVersion, FirstItem, SecondItems);
 		}
 	}
 }
 namespace QnSMusicStore.Logic.Entities.Business.Account
 {
-	partial class AppAccess : IdentityObject
+	partial class AppAccess : OneToManyObject<QnSMusicStore.Contracts.Persistence.Account.IIdentity, QnSMusicStore.Logic.Entities.Persistence.Account.Identity, QnSMusicStore.Contracts.Persistence.Account.IRole, QnSMusicStore.Logic.Entities.Persistence.Account.Role>
+	{
+	}
+}
+namespace QnSMusicStore.Logic.Entities.Business.Account
+{
+	using System;
+	partial class IdentityUser : QnSMusicStore.Contracts.Business.Account.IIdentityUser
+	{
+		static IdentityUser()
+		{
+			ClassConstructing();
+			ClassConstructed();
+		}
+		static partial void ClassConstructing();
+		static partial void ClassConstructed();
+		public IdentityUser()
+		{
+			Constructing();
+			Constructed();
+		}
+		partial void Constructing();
+		partial void Constructed();
+		public void CopyProperties(QnSMusicStore.Contracts.Business.Account.IIdentityUser other)
+		{
+			if (other == null)
+			{
+				throw new System.ArgumentNullException(nameof(other));
+			}
+			bool handled = false;
+			BeforeCopyProperties(other, ref handled);
+			if (handled == false)
+			{
+				Id = other.Id;
+				RowVersion = other.RowVersion;
+				FirstItem.CopyProperties(other.FirstItem);
+				SecondItem.CopyProperties(other.SecondItem);
+			}
+			AfterCopyProperties(other);
+		}
+		partial void BeforeCopyProperties(QnSMusicStore.Contracts.Business.Account.IIdentityUser other, ref bool handled);
+		partial void AfterCopyProperties(QnSMusicStore.Contracts.Business.Account.IIdentityUser other);
+		public override bool Equals(object obj)
+		{
+			if (!(obj is QnSMusicStore.Contracts.Business.Account.IIdentityUser instance))
+			{
+				return false;
+			}
+			return base.Equals(instance) && Equals(instance);
+		}
+		protected bool Equals(QnSMusicStore.Contracts.Business.Account.IIdentityUser other)
+		{
+			if (other == null)
+			{
+				return false;
+			}
+			return Id == other.Id && IsEqualsWith(RowVersion, other.RowVersion) && IsEqualsWith(FirstItem, other.FirstItem) && IsEqualsWith(SecondItem, other.SecondItem);
+		}
+		public override int GetHashCode()
+		{
+			return HashCode.Combine(Id, RowVersion, FirstItem, SecondItem);
+		}
+	}
+}
+namespace QnSMusicStore.Logic.Entities.Business.Account
+{
+	partial class IdentityUser : OneToOneObject<QnSMusicStore.Contracts.Persistence.Account.IIdentity, QnSMusicStore.Logic.Entities.Persistence.Account.Identity, QnSMusicStore.Contracts.Persistence.Account.IUser, QnSMusicStore.Logic.Entities.Persistence.Account.User>
 	{
 	}
 }

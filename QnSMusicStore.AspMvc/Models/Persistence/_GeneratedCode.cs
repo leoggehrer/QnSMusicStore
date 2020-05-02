@@ -71,7 +71,7 @@ namespace QnSMusicStore.AspMvc.Models.Persistence.App
 			if (handled == false)
 			{
 				Id = other.Id;
-				Timestamp = other.Timestamp;
+				RowVersion = other.RowVersion;
 				ArtistId = other.ArtistId;
 				Title = other.Title;
 			}
@@ -138,7 +138,7 @@ namespace QnSMusicStore.AspMvc.Models.Persistence.App
 			if (handled == false)
 			{
 				Id = other.Id;
-				Timestamp = other.Timestamp;
+				RowVersion = other.RowVersion;
 				Name = other.Name;
 			}
 			AfterCopyProperties(other);
@@ -204,7 +204,7 @@ namespace QnSMusicStore.AspMvc.Models.Persistence.App
 			if (handled == false)
 			{
 				Id = other.Id;
-				Timestamp = other.Timestamp;
+				RowVersion = other.RowVersion;
 				Name = other.Name;
 			}
 			AfterCopyProperties(other);
@@ -402,7 +402,7 @@ namespace QnSMusicStore.AspMvc.Models.Persistence.App
 			if (handled == false)
 			{
 				Id = other.Id;
-				Timestamp = other.Timestamp;
+				RowVersion = other.RowVersion;
 				AlbumId = other.AlbumId;
 				GenreId = other.GenreId;
 				Title = other.Title;
@@ -562,7 +562,7 @@ namespace QnSMusicStore.AspMvc.Models.Persistence.Account
 			if (handled == false)
 			{
 				Id = other.Id;
-				Timestamp = other.Timestamp;
+				RowVersion = other.RowVersion;
 				IdentityId = other.IdentityId;
 				Time = other.Time;
 				Subject = other.Subject;
@@ -764,7 +764,7 @@ namespace QnSMusicStore.AspMvc.Models.Persistence.Account
 			if (handled == false)
 			{
 				Id = other.Id;
-				Timestamp = other.Timestamp;
+				RowVersion = other.RowVersion;
 				Guid = other.Guid;
 				Name = other.Name;
 				Email = other.Email;
@@ -858,7 +858,7 @@ namespace QnSMusicStore.AspMvc.Models.Persistence.Account
 			if (handled == false)
 			{
 				Id = other.Id;
-				Timestamp = other.Timestamp;
+				RowVersion = other.RowVersion;
 				IdentityId = other.IdentityId;
 				RoleId = other.RoleId;
 			}
@@ -1123,7 +1123,7 @@ namespace QnSMusicStore.AspMvc.Models.Persistence.Account
 			if (handled == false)
 			{
 				Id = other.Id;
-				Timestamp = other.Timestamp;
+				RowVersion = other.RowVersion;
 				IdentityId = other.IdentityId;
 				IsRemoteAuth = other.IsRemoteAuth;
 				Origin = other.Origin;
@@ -1220,7 +1220,7 @@ namespace QnSMusicStore.AspMvc.Models.Persistence.Account
 			if (handled == false)
 			{
 				Id = other.Id;
-				Timestamp = other.Timestamp;
+				RowVersion = other.RowVersion;
 				Designation = other.Designation;
 				Description = other.Description;
 			}
@@ -1233,6 +1233,118 @@ namespace QnSMusicStore.AspMvc.Models.Persistence.Account
 namespace QnSMusicStore.AspMvc.Models.Persistence.Account
 {
 	partial class Role : IdentityModel
+	{
+	}
+}
+namespace QnSMusicStore.AspMvc.Models.Persistence.Account
+{
+	public partial class User : QnSMusicStore.Contracts.Persistence.Account.IUser
+	{
+		static User()
+		{
+			ClassConstructing();
+			ClassConstructed();
+		}
+		static partial void ClassConstructing();
+		static partial void ClassConstructed();
+		public User()
+		{
+			Constructing();
+			Constructed();
+		}
+		partial void Constructing();
+		partial void Constructed();
+		public System.Int32 IdentityId
+		{
+			get
+			{
+				OnIdentityIdReading();
+				return _identityId;
+			}
+			set
+			{
+				bool handled = false;
+				OnIdentityIdChanging(ref handled, ref _identityId);
+				if (handled == false)
+				{
+					this._identityId = value;
+				}
+				OnIdentityIdChanged();
+			}
+		}
+		private System.Int32 _identityId;
+		partial void OnIdentityIdReading();
+		partial void OnIdentityIdChanging(ref bool handled, ref System.Int32 _identityId);
+		partial void OnIdentityIdChanged();
+		public System.String Firstname
+		{
+			get
+			{
+				OnFirstnameReading();
+				return _firstname;
+			}
+			set
+			{
+				bool handled = false;
+				OnFirstnameChanging(ref handled, ref _firstname);
+				if (handled == false)
+				{
+					this._firstname = value;
+				}
+				OnFirstnameChanged();
+			}
+		}
+		private System.String _firstname;
+		partial void OnFirstnameReading();
+		partial void OnFirstnameChanging(ref bool handled, ref System.String _firstname);
+		partial void OnFirstnameChanged();
+		public System.String Lastname
+		{
+			get
+			{
+				OnLastnameReading();
+				return _lastname;
+			}
+			set
+			{
+				bool handled = false;
+				OnLastnameChanging(ref handled, ref _lastname);
+				if (handled == false)
+				{
+					this._lastname = value;
+				}
+				OnLastnameChanged();
+			}
+		}
+		private System.String _lastname;
+		partial void OnLastnameReading();
+		partial void OnLastnameChanging(ref bool handled, ref System.String _lastname);
+		partial void OnLastnameChanged();
+		public void CopyProperties(QnSMusicStore.Contracts.Persistence.Account.IUser other)
+		{
+			if (other == null)
+			{
+				throw new System.ArgumentNullException(nameof(other));
+			}
+			bool handled = false;
+			BeforeCopyProperties(other, ref handled);
+			if (handled == false)
+			{
+				Id = other.Id;
+				RowVersion = other.RowVersion;
+				IdentityId = other.IdentityId;
+				Firstname = other.Firstname;
+				Lastname = other.Lastname;
+			}
+			AfterCopyProperties(other);
+		}
+		partial void BeforeCopyProperties(QnSMusicStore.Contracts.Persistence.Account.IUser other, ref bool handled);
+		partial void AfterCopyProperties(QnSMusicStore.Contracts.Persistence.Account.IUser other);
+	}
+}
+namespace QnSMusicStore.AspMvc.Models.Persistence.Account
+{
+	partial class User : IdentityModel
 	{
 	}
 }

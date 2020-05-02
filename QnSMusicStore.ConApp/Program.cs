@@ -18,8 +18,6 @@ namespace QnSMusicStore.ConApp
         static string AaRole => "AppAdmin";
         static bool AaEnableJwt => true;
 
-        static string WebApiUri => "https://localhost:44380/api";
-
         static async Task Main(string[] args)
         {
             await Task.Run(() => Console.WriteLine("QnSMusicStore"));
@@ -29,26 +27,22 @@ namespace QnSMusicStore.ConApp
             var rmAccountManager = new AccountManager
             {
 //                BaseUri = "https://localhost:5001/api",
-                BaseUri = "https://localhost:44380/api",
+                BaseUri = "https://localhost:5001/api",
                 Adapter = Adapters.AdapterType.Service,
             };
             var appAccountManager = new AccountManager
             {
-                BaseUri = WebApiUri,
+                BaseUri = "https://localhost:5001/api",
                 Adapter = Adapters.AdapterType.Controller,
             };
 
-            Adapters.Factory.BaseUri = WebApiUri;
-            Adapters.Factory.Adapter = Adapters.AdapterType.Service;
+            Adapters.Factory.BaseUri = "https://localhost:5001/api";
+            Adapters.Factory.Adapter = Adapters.AdapterType.Controller;
 
             try
             {
                 await InitAppAccessAsync();
                 await AddAppAccessAsync(AaUser, AaEmail, AaPwd, AaEnableJwt, AaRole);
-
-                //await AddAppAccessAsync("schueler1", "schueler1@gmx.com", "Passme1234!", AaEnableJwt);
-                //await AddAppAccessAsync("schueler2", "schueler2@gmx.com", "Passme1234!", AaEnableJwt);
-                //await AddAppAccessAsync("schueler3", "schueler3@gmx.com", "Passme1234!", AaEnableJwt);
 
                 //var rmLogin = await rmAccountManager.LogonAsync("schueler1@gmx.com", "Passme123!");
                 //var appLogin = await appAccountManager.LogonAsync(rmLogin.JsonWebToken);
@@ -76,17 +70,17 @@ namespace QnSMusicStore.ConApp
             using var ctrl = Adapters.Factory.Create<Contracts.Business.Account.IAppAccess>(login.SessionToken);
             var entity = await ctrl.CreateAsync();
 
-            entity.Identity.Name = user;
-            entity.Identity.Email = email;
-            entity.Identity.Password = pwd;
-            entity.Identity.EnableJwtAuth = enableJwtAuth;
+            entity.FirstItem.Name = user;
+            entity.FirstItem.Email = email;
+            entity.FirstItem.Password = pwd;
+            entity.FirstItem.EnableJwtAuth = enableJwtAuth;
 
             foreach (var item in roles)
             {
-                var role = entity.CreateRole();
+                var role = entity.CreateSecondItem();
 
                 role.Designation = item;
-                entity.AddRole(role);
+                entity.AddSecondItem(role);
             }
             await ctrl.InsertAsync(entity);
             await accMngr.LogoutAsync(login.SessionToken);

@@ -2,7 +2,7 @@
 
 namespace QnSMusicStore.Contracts.Business.App
 {
-    public partial interface IAlbumTracks : IRelation<IAlbum, ITrack>, ICopyable<IAlbumTracks>
+    public partial interface IAlbumTracks : IOneToMany<IAlbum, ITrack>, ICopyable<IAlbumTracks>
     {
     }
 }

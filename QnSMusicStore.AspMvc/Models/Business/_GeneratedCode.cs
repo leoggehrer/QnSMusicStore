@@ -16,50 +16,6 @@ namespace QnSMusicStore.AspMvc.Models.Business.App
 		}
 		partial void Constructing();
 		partial void Constructed();
-		public QnSMusicStore.Contracts.Persistence.App.IAlbum Master
-		{
-			get
-			{
-				OnMasterReading();
-				return _master;
-			}
-			set
-			{
-				bool handled = false;
-				OnMasterChanging(ref handled, ref _master);
-				if (handled == false)
-				{
-					this._master = value;
-				}
-				OnMasterChanged();
-			}
-		}
-		private QnSMusicStore.Contracts.Persistence.App.IAlbum _master;
-		partial void OnMasterReading();
-		partial void OnMasterChanging(ref bool handled, ref QnSMusicStore.Contracts.Persistence.App.IAlbum _master);
-		partial void OnMasterChanged();
-		public System.Collections.Generic.IEnumerable<QnSMusicStore.Contracts.Persistence.App.ITrack> Details
-		{
-			get
-			{
-				OnDetailsReading();
-				return _details;
-			}
-			set
-			{
-				bool handled = false;
-				OnDetailsChanging(ref handled, ref _details);
-				if (handled == false)
-				{
-					this._details = value;
-				}
-				OnDetailsChanged();
-			}
-		}
-		private System.Collections.Generic.IEnumerable<QnSMusicStore.Contracts.Persistence.App.ITrack> _details;
-		partial void OnDetailsReading();
-		partial void OnDetailsChanging(ref bool handled, ref System.Collections.Generic.IEnumerable<QnSMusicStore.Contracts.Persistence.App.ITrack> _details);
-		partial void OnDetailsChanged();
 		public void CopyProperties(QnSMusicStore.Contracts.Business.App.IAlbumTracks other)
 		{
 			if (other == null)
@@ -71,12 +27,12 @@ namespace QnSMusicStore.AspMvc.Models.Business.App
 			if (handled == false)
 			{
 				Id = other.Id;
-				Timestamp = other.Timestamp;
-				Master.CopyProperties(other.Master);
-				ClearDetails();
-				foreach (var detail in other.Details)
+				RowVersion = other.RowVersion;
+				FirstItem.CopyProperties(other.FirstItem);
+				ClearSecondItems();
+				foreach (var item in other.SecondItems)
 				{
-					AddDetail(detail);
+					AddSecondItem(item);
 				}
 			}
 			AfterCopyProperties(other);
@@ -87,7 +43,7 @@ namespace QnSMusicStore.AspMvc.Models.Business.App
 }
 namespace QnSMusicStore.AspMvc.Models.Business.App
 {
-	partial class AlbumTracks : RelationModel<QnSMusicStore.Contracts.Persistence.App.IAlbum, QnSMusicStore.AspMvc.Models.Persistence.App.Album, QnSMusicStore.Contracts.Persistence.App.ITrack, QnSMusicStore.AspMvc.Models.Persistence.App.Track>
+	partial class AlbumTracks : OneToManyModel<QnSMusicStore.Contracts.Persistence.App.IAlbum, QnSMusicStore.AspMvc.Models.Persistence.App.Album, QnSMusicStore.Contracts.Persistence.App.ITrack, QnSMusicStore.AspMvc.Models.Persistence.App.Track>
 	{
 	}
 }
@@ -109,50 +65,6 @@ namespace QnSMusicStore.AspMvc.Models.Business.App
 		}
 		partial void Constructing();
 		partial void Constructed();
-		public QnSMusicStore.Contracts.Persistence.App.IArtist Master
-		{
-			get
-			{
-				OnMasterReading();
-				return _master;
-			}
-			set
-			{
-				bool handled = false;
-				OnMasterChanging(ref handled, ref _master);
-				if (handled == false)
-				{
-					this._master = value;
-				}
-				OnMasterChanged();
-			}
-		}
-		private QnSMusicStore.Contracts.Persistence.App.IArtist _master;
-		partial void OnMasterReading();
-		partial void OnMasterChanging(ref bool handled, ref QnSMusicStore.Contracts.Persistence.App.IArtist _master);
-		partial void OnMasterChanged();
-		public System.Collections.Generic.IEnumerable<QnSMusicStore.Contracts.Persistence.App.IAlbum> Details
-		{
-			get
-			{
-				OnDetailsReading();
-				return _details;
-			}
-			set
-			{
-				bool handled = false;
-				OnDetailsChanging(ref handled, ref _details);
-				if (handled == false)
-				{
-					this._details = value;
-				}
-				OnDetailsChanged();
-			}
-		}
-		private System.Collections.Generic.IEnumerable<QnSMusicStore.Contracts.Persistence.App.IAlbum> _details;
-		partial void OnDetailsReading();
-		partial void OnDetailsChanging(ref bool handled, ref System.Collections.Generic.IEnumerable<QnSMusicStore.Contracts.Persistence.App.IAlbum> _details);
-		partial void OnDetailsChanged();
 		public void CopyProperties(QnSMusicStore.Contracts.Business.App.IArtistAlbums other)
 		{
 			if (other == null)
@@ -164,12 +76,12 @@ namespace QnSMusicStore.AspMvc.Models.Business.App
 			if (handled == false)
 			{
 				Id = other.Id;
-				Timestamp = other.Timestamp;
-				Master.CopyProperties(other.Master);
-				ClearDetails();
-				foreach (var detail in other.Details)
+				RowVersion = other.RowVersion;
+				FirstItem.CopyProperties(other.FirstItem);
+				ClearSecondItems();
+				foreach (var item in other.SecondItems)
 				{
-					AddDetail(detail);
+					AddSecondItem(item);
 				}
 			}
 			AfterCopyProperties(other);
@@ -180,7 +92,7 @@ namespace QnSMusicStore.AspMvc.Models.Business.App
 }
 namespace QnSMusicStore.AspMvc.Models.Business.App
 {
-	partial class ArtistAlbums : RelationModel<QnSMusicStore.Contracts.Persistence.App.IArtist, QnSMusicStore.AspMvc.Models.Persistence.App.Artist, QnSMusicStore.Contracts.Persistence.App.IAlbum, QnSMusicStore.AspMvc.Models.Persistence.App.Album>
+	partial class ArtistAlbums : OneToManyModel<QnSMusicStore.Contracts.Persistence.App.IArtist, QnSMusicStore.AspMvc.Models.Persistence.App.Artist, QnSMusicStore.Contracts.Persistence.App.IAlbum, QnSMusicStore.AspMvc.Models.Persistence.App.Album>
 	{
 	}
 }
@@ -202,50 +114,6 @@ namespace QnSMusicStore.AspMvc.Models.Business.Account
 		}
 		partial void Constructing();
 		partial void Constructed();
-		public QnSMusicStore.Contracts.Persistence.Account.IIdentity Identity
-		{
-			get
-			{
-				OnIdentityReading();
-				return _identity;
-			}
-			set
-			{
-				bool handled = false;
-				OnIdentityChanging(ref handled, ref _identity);
-				if (handled == false)
-				{
-					this._identity = value;
-				}
-				OnIdentityChanged();
-			}
-		}
-		private QnSMusicStore.Contracts.Persistence.Account.IIdentity _identity;
-		partial void OnIdentityReading();
-		partial void OnIdentityChanging(ref bool handled, ref QnSMusicStore.Contracts.Persistence.Account.IIdentity _identity);
-		partial void OnIdentityChanged();
-		public System.Collections.Generic.IEnumerable<QnSMusicStore.Contracts.Persistence.Account.IRole> Roles
-		{
-			get
-			{
-				OnRolesReading();
-				return _roles;
-			}
-			set
-			{
-				bool handled = false;
-				OnRolesChanging(ref handled, ref _roles);
-				if (handled == false)
-				{
-					this._roles = value;
-				}
-				OnRolesChanged();
-			}
-		}
-		private System.Collections.Generic.IEnumerable<QnSMusicStore.Contracts.Persistence.Account.IRole> _roles;
-		partial void OnRolesReading();
-		partial void OnRolesChanging(ref bool handled, ref System.Collections.Generic.IEnumerable<QnSMusicStore.Contracts.Persistence.Account.IRole> _roles);
-		partial void OnRolesChanged();
 		public void CopyProperties(QnSMusicStore.Contracts.Business.Account.IAppAccess other)
 		{
 			if (other == null)
@@ -257,9 +125,13 @@ namespace QnSMusicStore.AspMvc.Models.Business.Account
 			if (handled == false)
 			{
 				Id = other.Id;
-				Timestamp = other.Timestamp;
-				Identity = other.Identity;
-				Roles = other.Roles;
+				RowVersion = other.RowVersion;
+				FirstItem.CopyProperties(other.FirstItem);
+				ClearSecondItems();
+				foreach (var item in other.SecondItems)
+				{
+					AddSecondItem(item);
+				}
 			}
 			AfterCopyProperties(other);
 		}
@@ -269,7 +141,52 @@ namespace QnSMusicStore.AspMvc.Models.Business.Account
 }
 namespace QnSMusicStore.AspMvc.Models.Business.Account
 {
-	partial class AppAccess : IdentityModel
+	partial class AppAccess : OneToManyModel<QnSMusicStore.Contracts.Persistence.Account.IIdentity, QnSMusicStore.AspMvc.Models.Persistence.Account.Identity, QnSMusicStore.Contracts.Persistence.Account.IRole, QnSMusicStore.AspMvc.Models.Persistence.Account.Role>
+	{
+	}
+}
+namespace QnSMusicStore.AspMvc.Models.Business.Account
+{
+	public partial class IdentityUser : QnSMusicStore.Contracts.Business.Account.IIdentityUser
+	{
+		static IdentityUser()
+		{
+			ClassConstructing();
+			ClassConstructed();
+		}
+		static partial void ClassConstructing();
+		static partial void ClassConstructed();
+		public IdentityUser()
+		{
+			Constructing();
+			Constructed();
+		}
+		partial void Constructing();
+		partial void Constructed();
+		public void CopyProperties(QnSMusicStore.Contracts.Business.Account.IIdentityUser other)
+		{
+			if (other == null)
+			{
+				throw new System.ArgumentNullException(nameof(other));
+			}
+			bool handled = false;
+			BeforeCopyProperties(other, ref handled);
+			if (handled == false)
+			{
+				Id = other.Id;
+				RowVersion = other.RowVersion;
+				FirstItem.CopyProperties(other.FirstItem);
+				SecondItem.CopyProperties(other.SecondItem);
+			}
+			AfterCopyProperties(other);
+		}
+		partial void BeforeCopyProperties(QnSMusicStore.Contracts.Business.Account.IIdentityUser other, ref bool handled);
+		partial void AfterCopyProperties(QnSMusicStore.Contracts.Business.Account.IIdentityUser other);
+	}
+}
+namespace QnSMusicStore.AspMvc.Models.Business.Account
+{
+	partial class IdentityUser : OneToOneModel<QnSMusicStore.Contracts.Persistence.Account.IIdentity, QnSMusicStore.AspMvc.Models.Persistence.Account.Identity, QnSMusicStore.Contracts.Persistence.Account.IUser, QnSMusicStore.AspMvc.Models.Persistence.Account.User>
 	{
 	}
 }
